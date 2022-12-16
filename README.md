@@ -8,3 +8,4 @@ Résolvez des problèmes en utilisant des algorithmes en Python
   - Nous ne pouvons pas acheter une fraction d'action.
   - Nous pouvons dépenser au maximum 500 euros par client.
 
+# optimized.py
