@@ -31,43 +31,57 @@ with open('actions_list.csv') as csvfile:
 
 
 budget = 500
-best_profit = 0
-best_solution = 0
-best_purchase_list_cost = 0
-best = 0
-best_purchase_list = []
 nb_possibilities = 2**20 - 1
 
-for i in range(nb_possibilities):
-    cost = 0
-    profit = 0
-    best_solution = best_solution + 1
-    purchase_list = []
-    binary_chain = format(i, "b")
+def binary_convertion(possibility): 
+    binary_chain = format(possibility, "b")
     inversed_chain = ''.join(reversed(binary_chain))
-    # print(chaine_binaire)
-    # print(chaine_inversee)
     bit = enumerate(inversed_chain)
-    # print(bit)
-    for index, value in bit:
-        if value == chr(ord('1')) and (cost + int(actions_list[index]['price'])) < budget:
-            # print(f"valeur = {valeur} / index = {index}")
-            cost = cost + int(actions_list[index]['price'])
-            profit = profit + float(actions_list[index]['profit'])
-            purchase_list.append(actions_list[index]["name"])
-            if profit > best_profit:
-                best_profit = profit
-                best = best_solution
-                best_purchase_list = purchase_list
-                best_purchase_list_cost = cost
-        """ else:
-            print(f"valeur = {valeur} / index = {index}") """
-    # print("The purchase actions list is : " + str(purchase_list))  
-    # print("The profit of the solution " + str(best_solution) + " is :" + str(profit))
-    # print("The cost of this solution is :" + str(cost))             
-print("----------------------------------------------------------------------------------------------------------")
-print("----------------------------------------------------------------------------------------------------------")
-print("Best solution is the solution " + str(best))
-print("The best profit = " + str(best_profit))
-print("The best purchase list is : " + str(best_purchase_list))
-print("The cost of the best purchase list is :" + str(best_purchase_list_cost))        
+    return bit
+
+def values_updated(index, cost, profit, purchase_list):
+    cost = cost + int(actions_list[index]['price'])
+    profit = profit + float(actions_list[index]['profit'])
+    purchase_list.append(actions_list[index]["name"])
+    return (cost, profit)
+
+def actions_combination(nb_possibilities, actions_list, budget):
+    best_profit = 0
+    best_solution = 0
+    best_purchase_list_cost = 0
+    best = 0
+    best_purchase_list = []
+    for i in range(nb_possibilities):
+        cost = 0
+        profit = 0
+        best_solution = best_solution + 1
+        purchase_list = []       
+        bit = binary_convertion(i)
+        for index, value in bit:
+            if value == chr(ord('1')) and (cost + int(actions_list[index]['price'])) < budget:
+                value_updated = values_updated(index, cost, profit, purchase_list)
+                cost = value_updated[0]
+                profit = value_updated[1]
+                if profit > best_profit:
+                    best_profit = profit
+                    best = best_solution
+                    best_purchase_list = purchase_list
+                    best_purchase_list_cost = cost         
+    return (best, best_profit, best_purchase_list, best_purchase_list_cost)   
+    
+    
+def display_result(best, best_profit, best_purchase_list, best_purchase_list_cost):     
+    print("----------------------------------------------------------------------------------------------------------")
+    print("----------------------------------------------------------------------------------------------------------")
+    print("Best solution is the solution " + str(best))
+    print("The best profit = " + str(best_profit))
+    print("The best purchase list is : " + str(best_purchase_list))
+    print("The cost of the best purchase list is :" + str(best_purchase_list_cost))        
+
+
+result = actions_combination(nb_possibilities, actions_list, budget)
+best = result[0]
+best_profit = result[1]
+best_purchase_list = result[2]
+best_purchase_list_cost = result[3]
+display_result(best, best_profit, best_purchase_list, best_purchase_list_cost)
