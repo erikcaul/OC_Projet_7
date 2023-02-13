@@ -7,7 +7,7 @@ with open('actions_list.csv') as csvfile:
 with open('dataset1.csv') as csvfile:
     reader = csv.DictReader(csvfile)
     dataset1 = list(reader)
-    
+
 with open('dataset2.csv') as csvfile:
     reader = csv.DictReader(csvfile)
     dataset2 = list(reader)
@@ -43,7 +43,7 @@ def display_optimized_result(cost, profit):
 
 sorted_actions_list = sort_data(actions_list)
 result_actions_list = optimized_algo(sorted_actions_list)
-display_optimized_result(result_actions_list["cost"], 
+display_optimized_result(result_actions_list["cost"],
                          result_actions_list["profit"])
 
 sorted_dataset1 = sort_data(dataset1)
