@@ -31,7 +31,7 @@ with open('actions_list.csv') as csvfile:
 
 
 budget = 500
-nb_possibilities = 2**20 - 1
+nb_possibilities = 2**(len(actions_list)-1) - 1
 
 def binary_convertion(possibility): 
     binary_chain = format(possibility, "b")
@@ -43,7 +43,7 @@ def values_updated(index, cost, profit, purchase_list):
     cost = cost + int(actions_list[index]['price'])
     profit = profit + float(actions_list[index]['profit'])
     purchase_list.append(actions_list[index]["name"])
-    return (cost, profit)
+    return {"cost":cost, "profit":profit}
 
 def actions_combination(nb_possibilities, actions_list, budget):
     best_profit = 0
@@ -51,23 +51,25 @@ def actions_combination(nb_possibilities, actions_list, budget):
     best_purchase_list_cost = 0
     best = 0
     best_purchase_list = []
-    for i in range(nb_possibilities):
+    for possibility in range(nb_possibilities):
         cost = 0
         profit = 0
         best_solution = best_solution + 1
         purchase_list = []       
-        bit = binary_convertion(i)
+        bit = binary_convertion(possibility)
         for index, value in bit:
-            if value == chr(ord('1')) and (cost + int(actions_list[index]['price'])) < budget:
+            if value == chr(ord('1')):
+                if (cost + int(actions_list[index]['price'])) > budget:
+                    break
                 value_updated = values_updated(index, cost, profit, purchase_list)
-                cost = value_updated[0]
-                profit = value_updated[1]
+                cost = value_updated["cost"]
+                profit = value_updated["profit"]
                 if profit > best_profit:
                     best_profit = profit
                     best = best_solution
                     best_purchase_list = purchase_list
                     best_purchase_list_cost = cost         
-    return (best, best_profit, best_purchase_list, best_purchase_list_cost)   
+    return {"best":best, "best_profit": best_profit, "best_purchase_list": best_purchase_list, "best_purchase_list_cost": best_purchase_list_cost}   
     
     
 def display_result(best, best_profit, best_purchase_list, best_purchase_list_cost):     
@@ -80,8 +82,8 @@ def display_result(best, best_profit, best_purchase_list, best_purchase_list_cos
 
 
 result = actions_combination(nb_possibilities, actions_list, budget)
-best = result[0]
-best_profit = result[1]
-best_purchase_list = result[2]
-best_purchase_list_cost = result[3]
+best = result["best"]
+best_profit = result["best_profit"]
+best_purchase_list = result["best_purchase_list"]
+best_purchase_list_cost = result["best_purchase_list_cost"]
 display_result(best, best_profit, best_purchase_list, best_purchase_list_cost)

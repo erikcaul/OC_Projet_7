@@ -13,7 +13,6 @@ cost = 0
 purchase_list = []
 
 sorted_data = sorted(actions_list, key=lambda x:x['profit'], reverse=True)
-print(sorted_data)
 
 for i in range(len(sorted_data)):
     if cost < budget:
