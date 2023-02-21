@@ -67,5 +67,5 @@ for chosen_list in ['actions_list.csv', 'dataset1.csv', 'dataset2.csv']:
     best_profit = result["best_profit"]
     best_purchase_list = result["best_purchase_list"]
     best_purchase_list_cost = result["best_purchase_list_cost"]
-    display_result(best, best_profit, best_purchase_list, 
+    display_result(best, best_profit, best_purchase_list,
                    best_purchase_list_cost)

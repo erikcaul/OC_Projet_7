@@ -39,4 +39,3 @@ def file_reader(file_path):
         actions_list = list(reader)
         add_net_profit(actions_list)
         return actions_list
-
