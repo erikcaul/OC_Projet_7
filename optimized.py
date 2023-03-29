@@ -23,7 +23,7 @@ def optimized_algo(sorted_data):  # n log(n)
 
 
 def display_optimized_result(cost, profit, purchase_list):
-    """ print("The purchase actions list is : " + str(purchase_list)) """
+    print("The purchase actions list is : " + str(purchase_list))
     print("The cost of this solution is :" + str(cost))
     print("The profit of this solution is :" + str(profit))
 
